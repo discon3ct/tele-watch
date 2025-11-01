@@ -6,8 +6,9 @@ import os
 
 load_dotenv()
 
-API_ID=os.environ.get("API_ID")
-API_HASH=os.environ.get("API_HASH")
+API_ID=os.environ.get('API_ID')
+API_HASH=os.environ.get('API_HASH')
+channels=['channel_1','channel_2']
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger=logging.getLogger(__name__)
@@ -16,7 +17,7 @@ async def main():
     client=TelegramClient('sesh',API_ID,API_HASH)
 
     await client.start()
-    channel_entity=await client.get_entity("ENTITY")
+    channel_entities=await asyncio.gather(*(client.get_entity("channel") for channel in channels))
 
     @client.on(events.NewMessage)
     async def handle_message(event):

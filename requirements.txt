@@ -1,8 +1,12 @@
 asyncio==4.0.0
+certifi==2025.10.5
+charset-normalizer==3.4.4
 dotenv==0.9.9
+idna==3.11
 logging==0.4.9.6
 pyaes==1.6.1
 pyasn1==0.6.1
 python-dotenv==1.2.1
 rsa==4.9.1
 Telethon==1.41.2
+urllib3==2.5.0
