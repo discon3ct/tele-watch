@@ -17,7 +17,6 @@ async def send_message_to_slack(text):
     except requests.RequestException as e:
         logger.error(f"Error sending message {e}")
 
-async def
 load_dotenv()
 
 API_ID=os.environ.get('API_ID')
