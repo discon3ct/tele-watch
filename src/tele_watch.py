@@ -11,7 +11,7 @@ import os
 async def send_message_to_slack(text):
     payload={"text":text}
     try:
-        response=requests.post(webhook,json=payload)
+        response=requests.post(WEBHOOK,json=payload)
         response.raise_for_status()
         logger.info(f"##### Slack message delivered ####")
     except requests.RequestException as e:
@@ -30,19 +30,33 @@ logger=logging.getLogger(__name__)
 async def main():
     client=TelegramClient('anon',API_ID,API_HASH)
 
-    await client.start()
-    channel_entities=await asyncio.gather(*(client.get_entity("channel") for channel in channels))
+    try:
+        await client.start()
+        # Fetching all channel entities from channels[]
+        channel_entities=await asyncio.gather(*(client.get_entity("channel") for channel in channels))
+    except Exception as e:
+        logger.error(f"Error fetching channel entities: {e}")
 
     @client.on(events.NewMessage)
     async def handle_message(event):
-        sender=await event.get_sender()
-        channel=await event.get_chat()
-        message=event.raw_text
+        try:
+            sender=await event.get_sender()
+            channel=await event.get_chat()
+            message=event.raw_text
 
-        text=f"Telegram Alert\nChannel: {(channel.title)}\nUser: {sender.username}\nMessage: {message}\n"
-        logger.info(f"Message received from {sender.username} in {channel.title}: {message}")
-        await send_message_to_slack(text)
-    await client.run_until_disconnected()
+            text=f"Telegram Alert\nChannel: {(channel.title)}\nMessage: {message}\n"
+            logger.info(f"Message received from {sender.username} in {channel.title}: {message}")
+
+            await send_message_to_slack(text)
+        except Exception as e:
+            logger.error(f"Error processing message: {e}")
+
+    # Run client until process is killed
+    try:
+        await client.run_until_disconnected()
+    except Exception as e:
+        logger.error(f"Error running the client: {e}")
+
     return handle_message
 asyncio.run(main())
 
