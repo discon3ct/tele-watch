@@ -53,7 +53,7 @@
 3. ***That's it your done and the tele_watch.py process is running in the background.***
 
 ***To check that tele_watch.py is running you can run the following command:***
-* `ps -ef | grep python'
+* `ps -ef | grep python`
 
 ***To kill the tele_watch.py process use the following command***
 * `kill <PID of tele_watch.py>`
