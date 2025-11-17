@@ -57,8 +57,9 @@
 
 ***To kill the tele_watch.py process use the following command***
 * `kill <PID of tele_watch.py>`
+---
 
-***For a more detailed and step-by-step setup process you can refer to the Wiki***
+>For a more detailed and step-by-step setup process you can refer to the Wiki ---> ***Currently under development*** <---
 
 
 
